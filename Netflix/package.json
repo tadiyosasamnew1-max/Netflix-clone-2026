@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.20.0",
+    "firebase": "^12.19.0",
+    "movie-trailer": "^3.2.3",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4",
+    "react-youtube": "^10.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",

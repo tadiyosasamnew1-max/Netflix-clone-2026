@@ -1,0 +1,58 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 30px;
+    box-sizing: border-box;
+    z-index: 100;
+    transition: background-color 0.4s ease-in-out;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 10%, transparent);
+}
+
+.header__black {
+    background-color: #111111;
+}
+
+.header__contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__logo {
+    width: 90px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.header__nav {
+    display: flex;
+    gap: 20px;
+    color: #e5e5e5;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.header__nav span {
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.header__nav span:hover {
+    color: #b3b3b3;
+}
+
+.header__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ለሞባይል ስክሪኖች የሜኑ ዝርዝሩን ለመደበቅ */
+@media (max-width: 600px) {
+    .header__nav {
+        display: none;
+    }
+}
