@@ -1,0 +1,47 @@
+.card {
+    position: relative;
+    flex-shrink: 0;
+    margin-right: 10px;
+    transition: transform 450ms;
+}
+
+.card:hover {
+    transform: scale(1.08);
+    z-index: 2;
+}
+
+.card__img {
+    display: block;
+    height: 200px;
+    border-radius: 4px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.card__btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.card:hover .card__btn,
+.card__btn:focus-visible,
+.card__btn--on {
+    opacity: 1;
+}
+
+.card__btn--on {
+    background: #e50914;
+    border-color: #e50914;
+}

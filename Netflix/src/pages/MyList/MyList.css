@@ -1,0 +1,24 @@
+.mylist {
+    min-height: 100vh;
+    background: #111;
+    color: #fff;
+}
+
+.mylist__body {
+    min-height: 70vh;
+    padding: 100px 4% 40px;
+}
+
+.mylist__body h1 {
+    margin-bottom: 24px;
+}
+
+.mylist__empty {
+    color: #b3b3b3;
+}
+
+.mylist__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 0;
+}

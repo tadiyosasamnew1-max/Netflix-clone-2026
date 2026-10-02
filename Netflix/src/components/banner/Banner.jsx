@@ -1,39 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import axios from '../../services/tmdb/axios';
-import requests from '../../services/tmdb/requests';
-import './Banner.css';
+import { useState, useEffect } from "react";
+import axios from "../../services/tmdb/axios";
+import requests from "../../services/tmdb/requests";
+import { useMovies } from "../../context/MovieContext";
+import "./Banner.css";
+
+const IMG_URL = "https://image.tmdb.org/t/p/original";
+
+const truncate = (text, n) =>
+    text && text.length > n ? text.slice(0, n - 1) + "…" : text;
 
 const Banner = () => {
-    const [movie, setMovie] = useState([]);
+    const [movie, setMovie] = useState(null);
+    const { openMovie } = useMovies();
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const request = await axios.get(requests.fetchNetflixOriginals);
-                setMovie(
-                    request.data.results[
-                    Math.floor(Math.random() * request.data.results.length - 1)
-                    ]
-                );
-            } catch (error) {
-                console.log('Error fetching banner movie:', error);
+                const res = await axios.get(requests.fetchNetflixOriginals);
+                const list = res.data.results.filter((m) => m.backdrop_path);
+                setMovie(list[Math.floor(Math.random() * list.length)]);
+            } catch (err) {
+                console.error("Banner fetch failed:", err.message);
             }
         }
         fetchData();
     }, []);
 
-    // ረጅም ፅሁፍ ሲኖር ቆርጦ "..." ለማድረግ
-    function truncate(string, n) {
-        return string?.length > n ? string.substr(0, n - 1) + '...' : string;
-    }
-
     return (
         <header
             className="banner"
             style={{
-                backgroundSize: 'cover',
-                backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`,
-                backgroundPosition: 'center center',
+                backgroundImage: movie ? `url(${IMG_URL}${movie.backdrop_path})` : "none",
             }}
         >
             <div className="banner__contents">
@@ -41,15 +38,12 @@ const Banner = () => {
                     {movie?.title || movie?.name || movie?.original_name}
                 </h1>
                 <div className="banner__buttons">
-                    <button className="banner__button">Play</button>
+                    <button className="banner__button" onClick={() => movie && openMovie(movie)}>Play</button>
                     <button className="banner__button">My List</button>
                 </div>
-                <h1 className="banner__description">
-                    {truncate(movie?.overview, 150)}
-                </h1>
+                <p className="banner__description">{truncate(movie?.overview, 150)}</p>
             </div>
-
-            <div className="banner--fadeBottom" />
+            <div className="banner__fadeBottom" />
         </header>
     );
 };

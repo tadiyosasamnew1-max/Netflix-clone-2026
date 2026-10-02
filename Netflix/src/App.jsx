@@ -1,36 +1,42 @@
-import React, { useEffect } from 'react';
-import Home from './pages/Home/Home'; // የቤትህ ፊልሞች ገፅ (ካለህበት ቦታ ጋር አስተካክለው)
-import Login from './pages/Login/Login';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase';
+import { useEffect, useState } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import MyList from "./pages/MyList/MyList";
+import Search from "./pages/Search/Search";
+import Contact from "./pages/Contact/Contact";
+import Modal from "./components/common/Modal/Modal";
+import Loading from "./components/common/Loading/Loading";
 
 const App = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [ready, setReady] = useState(false); // false until Firebase tells us who is signed in
 
   useEffect(() => {
-    // ተጠቃሚው መግባቱን ወይም መውጣቱን በቋሚነት ይከታተላል
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("Logged In:", user);
-        navigate('/'); // ተጠቃሚው ከገባ ወደ ዋናው ገፅ ይወስደዋል
-      } else {
-        console.log("Logged Out");
-        navigate('/login'); // ካልገባ ደግሞ ወደ መግቢያ ገፅ ይመልሰዋል
-      }
+      if (!user) navigate("/login");
+      else if (pathname === "/login") navigate("/");
+      setReady(true);
     });
-
-    // Clean up function
     return () => unsubscribe();
-  }, [navigate]);
+  }, [navigate, pathname]);
+
+  if (!ready) return <Loading />;
 
   return (
-    <div>
+    <>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/my-list" element={<MyList />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
-    </div>
+      <Modal />
+    </>
   );
 };
 

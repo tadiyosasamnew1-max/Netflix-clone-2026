@@ -1,0 +1,10 @@
+.home {
+    background: #111;
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.home__rows {
+    padding-bottom: 40px;
+}
